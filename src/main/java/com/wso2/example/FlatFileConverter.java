@@ -37,7 +37,7 @@ public class FlatFileConverter extends AbstractMediator {
 
         org.apache.axis2.context.MessageContext axis2MessageContext = ((Axis2MessageContext) mc)
                 .getAxis2MessageContext();
-        log.info("Class Mediator Mediate Method");
+        log.debug("FlatFileConverter Class Mediator Started ...");
         OMElement element = (OMElement) mc.getEnvelope().getBody().getFirstElement();
         String flatData = (String) element.getText();
 
@@ -49,7 +49,7 @@ public class FlatFileConverter extends AbstractMediator {
             String[] outputDataArray = new String[lines.length];
             for (int i = 0; i < lines.length; i++) {
                 flatDataArray[i] = lines[i];
-                log.info("Line " + (i + 1) + " Data : " + lines[i]);
+                log.debug("FlatFile Line " + (i + 1) + " Data : " + lines[i]);
                 String[] parts = flatDataArray[i].split("\\s{2,}");
 
                 //for (String part : parts) {
@@ -65,7 +65,7 @@ public class FlatFileConverter extends AbstractMediator {
                         riskId, fein, name, city, emodMr, year);
 
                 outputDataArray[i] = output;
-                log.info(outputDataArray[i]);
+                log.debug("Formatted data : "+ outputDataArray[i]);
 
                 // Convert payload to a JSON object
                 JSONObject jsonObject = new JSONObject();
@@ -78,16 +78,16 @@ public class FlatFileConverter extends AbstractMediator {
                     }
                 }
                 // Print the JSON object
-                log.info("\n" + jsonObject.toString(4));
+                log.debug("Json Object from data line : \n" + jsonObject.toString(4));
 
                 jsonArray.put(jsonObject);
             }
             String jsonArrayString = jsonArray.toString();
-            log.info(jsonArrayString);
+            log.debug("Json Array from data line" + jsonArrayString);
             JsonUtil.getNewJsonPayload(axis2MessageContext, jsonArrayString, true, true);
 
         } catch (JSONException | AxisFault e) {
-            e.printStackTrace();
+            log.error("Error while generating the JSON Payload", e);
         }
         return true;
     }
