@@ -53,16 +53,16 @@ public class FlatFileConverter extends AbstractMediator {
                 String[] parts = flatDataArray[i].split("\\s{2,}");
 
                 //for (String part : parts) {
-                String riskId = parts[0].replace("-", "");
-                String fein = parts[1].replace("-", "");
-                String name = parts[2].replaceAll("\\s", "");
-                String city = parts[3].replaceAll("\\s", "");
-                int emodMr = Integer.parseInt(parts[4]);
-                int year = Integer.parseInt(parts[5]);
+                String part1 = parts[0].replace("-", "");
+                String part2 = parts[1].replace("-", "");
+                String part3 = parts[2].replaceAll("\\s", "");
+                String part4 = parts[3].replaceAll("\\s", "");
+                int part5 = Integer.parseInt(parts[4]);
+                int part6 = Integer.parseInt(parts[5]);
 
                 // Build the output string
-                String output = String.format("RISKID: %s,\nFEIN:  %s,\nNAME:  %s,\nCITY:  %s,\nEMOD_MR: %d,\nYEAR:   %d",
-                        riskId, fein, name, city, emodMr, year);
+                String output = String.format("COLUMN1: %s,\nCOLUMN2:  %s,\nCOLUMN3:  %s,\nCOLUMN4:  %s,\nCOLUMN5: %d,\nCOLUMN6:   %d",
+                        part1, part2, part3, part4, part5, part6);
 
                 outputDataArray[i] = output;
                 log.debug("Formatted data : "+ outputDataArray[i]);
